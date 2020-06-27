@@ -6,11 +6,6 @@ import UserRowItem from './UserRowItem';
 import Button from 'react-bootstrap/Button';
 
 const ListUsers = observer(() => {
-    // Здесь нужно реализовать функцию фильтрации в таблице производя, используйте инпут
-    // const changeInput = (e) => {
-    //     console.log(e.target.value);
-    // }
-
     const initialState = {
         firstName: '',
         lastName: '',
@@ -18,7 +13,6 @@ const ListUsers = observer(() => {
         sortOrder: 1,
         users: usersStore.usersState,
     };
-
 
     const [state, setState] = useState(initialState);
 

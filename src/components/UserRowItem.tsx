@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import usersStore from '../models/UsersStore';
 
-const UserRowItem = props => {
-    const userID = parseInt(props.userID, 10);
+const UserRowItem:React.FC = (props: any) => {
+    const userID:number = parseInt(props.userID, 10);
     const { guid, age, name } = props.value;
-    const onDeleted = guid => {
+    const onDeleted = (guid: any) => {
         usersStore.deleteUserItem({ guid });
     };
 

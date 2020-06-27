@@ -3,14 +3,15 @@ import usersStore from '../models/UsersStore';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
-const EditUser = () => {
-    function getUsername(url) {
+const EditUser:React.FC = () => {
+    function getUsername(url: string) {
         const urlParts = url.split('edit/');
         const userName = urlParts[1];
 
         return userName;
     }
-    const id = getUsername(window.location.href);
+    
+    const id: string = getUsername(window.location.href);
 
     const initialState = {
         name_first: usersStore.users[id].name.first || ' ',
@@ -20,11 +21,11 @@ const EditUser = () => {
 
     const [state, setState] = useState(initialState);
 
-    const handleClick = e => {
+    const handleClick = (e:any) => {
         usersStore.editUserItem(state, id);
     };
 
-    const handleChange = e => {
+    const handleChange = (e:any) => {
         setState({
             ...state,
             [e.target.name]: e.target.value,

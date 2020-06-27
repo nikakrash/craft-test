@@ -3,12 +3,12 @@ import usersStore from '../models/UsersStore';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
-const CreateUser = () => {
+const CreateUser:React.FC = () => {
     const initialState = { name_first: '', name_last: '', age: 0 };
 
     const [state, setState] = useState(initialState);
 
-    const handleClick = e => {
+    const handleClick = (e:any) => {
         const newObj = {
             name: { first: state.name_first, last: state.name_last },
             age: state.age,
@@ -17,7 +17,7 @@ const CreateUser = () => {
         usersStore.addUserItem(newObj);
     };
 
-    const handleChange = e => {
+    const handleChange = (e:any) => {
         setState({
             ...state,
             [e.target.name]: e.target.value,
