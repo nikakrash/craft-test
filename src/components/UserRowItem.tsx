@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import usersStore from '../models/UsersStore';
 
-const UserRowItem:React.FC = (props: any) => {
-    const userID:number = parseInt(props.userID, 10);
+export const UserRowItem: React.FC = (props: any) => {
+    const userID: number = parseInt(props.userID, 10);
     const { guid, age, name } = props.value;
     const onDeleted = (guid: any) => {
         usersStore.deleteUserItem({ guid });
@@ -31,4 +31,3 @@ const UserRowItem:React.FC = (props: any) => {
         </tr>
     );
 };
-export default UserRowItem;

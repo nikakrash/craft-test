@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import usersStore from '../models/UsersStore';
 import { Link } from 'react-router-dom';
-import UserRowItem from './UserRowItem';
+import { UserRowItem } from './UserRowItem';
 import Button from 'react-bootstrap/Button';
 
-const ListUsers = observer(() => {
+export const ListUsers = observer(() => {
     const initialState = {
         firstName: '',
         lastName: '',
@@ -16,7 +16,7 @@ const ListUsers = observer(() => {
 
     const [state, setState] = useState(initialState);
 
-    const itemsList = state.users.slice().reduce((acc, value, index) => {
+    const itemsList = initialState.users.reduce((acc, value, index) => {
         const userIndex = usersStore.usersState.slice().findIndex((el, index) => {
             return el.name.first === value.name.first && el.name.last === value.name.last;
         });
@@ -38,22 +38,38 @@ const ListUsers = observer(() => {
                 <thead>
                     <tr>
                         <th>
-                            <Button variant="outline-dark" id="sort-index">
+                            <Button
+                                variant="outline-dark"
+                                id="sort-index"
+                                onClick={() => usersStore.sortBy('index')}
+                            >
                                 #
                             </Button>
                         </th>
                         <th>
-                            <Button variant="outline-dark" id="sort-first-name" onClick={() => usersStore.sortBy('first-name')}>
+                            <Button
+                                variant="outline-dark"
+                                id="sort-first-name"
+                                onClick={() => usersStore.sortBy('first-name')}
+                            >
                                 First Name
                             </Button>
                         </th>
                         <th>
-                            <Button variant="outline-dark" id="sort-last-name" onClick={() => usersStore.sortBy('last-name')}>
+                            <Button
+                                variant="outline-dark"
+                                id="sort-last-name"
+                                onClick={() => usersStore.sortBy('last-name')}
+                            >
                                 Last Name
                             </Button>
                         </th>
                         <th>
-                            <Button variant="outline-dark" id="sort-age" onClick={() => usersStore.sortBy('age')}>
+                            <Button
+                                variant="outline-dark"
+                                id="sort-age"
+                                onClick={() => usersStore.sortBy('age')}
+                            >
                                 Age
                             </Button>
                         </th>
@@ -103,5 +119,3 @@ const ListUsers = observer(() => {
         </div>
     );
 });
-
-export default ListUsers;

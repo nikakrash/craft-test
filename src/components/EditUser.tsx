@@ -1,35 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, FC, useEffect } from 'react';
 import usersStore from '../models/UsersStore';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
-const EditUser:React.FC = () => {
-    function getUsername(url: string) {
-        const urlParts = url.split('edit/');
-        const userName = urlParts[1];
+interface EditUserProps {
+    firstNameInit: string;
+    lastNameInit: string;
+    ageInit: number;
+    match: any;
+    params: any;
+    userID: string;
+}
 
-        return userName;
-    }
-    
-    const id: string = getUsername(window.location.href);
+export const EditUser: FC<EditUserProps> = props => {
+    const [firstName, setFirstName] = useState(props.firstNameInit);
+    const [lastName, setLastName] = useState(props.lastNameInit);
+    const [age, setAge] = useState(props.ageInit);
+    const userId = +props.match.params.userID;
 
-    const initialState = {
-        name_first: usersStore.users[id].name.first || ' ',
-        name_last: usersStore.users[id].name.last || ' ',
-        age: usersStore.users[id].age || ' ',
-    };
+    useEffect(() => {
+        const updateUser = usersStore.usersState.find(
+            (el: any, index: number) => userId === index,
+        );
 
-    const [state, setState] = useState(initialState);
+        setFirstName(updateUser.name.first);
+        setLastName(updateUser.name.last);
+        setAge(updateUser.age);
+    }, [userId]);
 
-    const handleClick = (e:any) => {
-        usersStore.editUserItem(state, id);
-    };
+    const handleClick = () => {
+        const editedObj = {
+            name: { first: firstName, last: lastName },
+            age,
+        };
 
-    const handleChange = (e:any) => {
-        setState({
-            ...state,
-            [e.target.name]: e.target.value,
-        });
+        usersStore.editUserItem(editedObj, userId);
     };
 
     return (
@@ -45,8 +50,8 @@ const EditUser:React.FC = () => {
                                     name="name_first"
                                     className="form-control"
                                     type="text"
-                                    onChange={handleChange}
-                                    value={state.name_first}
+                                    onChange={e => setFirstName(e.target.value)}
+                                    value={firstName || ''}
                                     data-validation="required"
                                 />
                                 <span id="error_name" className="text-danger"></span>
@@ -57,8 +62,8 @@ const EditUser:React.FC = () => {
                                     id="name_last"
                                     name="name_last"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    value={state.name_last}
+                                    onChange={e => setLastName(e.target.value)}
+                                    value={lastName || ''}
                                     type="text"
                                     data-validation="email"
                                 />
@@ -70,8 +75,8 @@ const EditUser:React.FC = () => {
                                     id="age"
                                     name="age"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    value={state.age}
+                                    onChange={e => setAge(Number(e.target.value))}
+                                    value={age || 0}
                                     type="number"
                                     min="1"
                                 />
@@ -93,5 +98,3 @@ const EditUser:React.FC = () => {
         </div>
     );
 };
-
-export default EditUser;
